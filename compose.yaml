@@ -1,0 +1,30 @@
+services:
+  postgis:
+    container_name: practiceDB
+    image: postgis/postgis:16-3.5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rootpostgresql
+      - POSTGRES_DB=postgres
+    ports:
+      - "54321:5432"
+    volumes:
+      - postgres-sql:/var/lib/postgresql/data
+
+  # Connect with pgadmin via
+  #   Hostname: postgis
+  #   Port: 5432
+  #   Username+Password of Postgis
+  pgadmin4:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: root@example.com
+      PGADMIN_DEFAULT_PASSWORD: toor
+    depends_on:
+      - postgis
+
+volumes:
+  postgres-sql:
